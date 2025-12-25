@@ -4,7 +4,7 @@ from database import get_product_list
 # 1. Configurazione dell'icona e del titolo per il browser
 st.set_page_config(
     page_title="La Mia Spesa", 
-    page_icon="🛒", 
+    page_icon="logo.png",  # <--- MODIFICA EFFETTUATA: Ora usa il tuo logo!
     layout="centered"
 )
 
