@@ -2,45 +2,53 @@ import streamlit as st
 from database import get_product_list
 from fpdf import FPDF
 
-# 1. Configurazione base
+# 1. Configurazione per PC (usa il tuo logo attuale)
 st.set_page_config(
     page_title="La Mia Spesa", 
     page_icon="logo.png",
     layout="centered"
 )
 
-# 2. Codice per l'icona (Versione semplificata per non bloccare l'app)
+# 2. Codice per il TELEFONO (usa il logo leggero)
 st.markdown("""
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Maurino1962/lista-spesa/main/logo.png">
+    <head>
+        <link rel="manifest" href="https://raw.githubusercontent.com/Maurino1962/lista-spesa/main/manifest.json">
+        <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Maurino1962/lista-spesa/main/logo_mobile.png">
+        <link rel="icon" sizes="192x192" href="https://raw.githubusercontent.com/Maurino1962/lista-spesa/main/logo_mobile.png">
+    </head>
 """, unsafe_allow_html=True)
 
-# 3. Visualizzazione Logo
+# 3. Visualizzazione Logo Centrale
 try:
-    st.image("logo.png", width=150)
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        st.image("logo.png", width=150)
 except:
-    st.title("🛒 Lista della Spesa")
+    st.markdown("<h1 style='text-align: center;'>🛒</h1>", unsafe_allow_html=True)
 
 st.markdown("<h1 style='text-align: center;'>Lista della Spesa</h1>", unsafe_allow_html=True)
 
-# 4. Database e Sessione
+# 4. Logica dell'app
 prodotti_db = get_product_list()
 if 'lista' not in st.session_state:
     st.session_state.lista = []
 
-# 5. Selezione e Aggiunta
+st.write("### Aggiungi Prodotti")
 prodotto_scelto = st.selectbox("Cerca un prodotto:", [""] + prodotti_db)
 
-if st.button("Aggiungi ➕", use_container_width=True):
-    if prodotto_scelto and prodotto_scelto not in st.session_state.lista:
-        st.session_state.lista.append(prodotto_scelto)
-        st.rerun()
+if st.button("Aggiungi alla lista ➕", use_container_width=True):
+    if prodotto_scelto and prodotto_scelto != "":
+        if prodotto_scelto not in st.session_state.lista:
+            st.session_state.lista.append(prodotto_scelto)
+            st.rerun()
 
 st.write("---")
 
-# 6. Lista prodotti
-if st.session_state.lista:
+if not st.session_state.lista:
+    st.info("La lista è vuota.")
+else:
     for i, voce in enumerate(st.session_state.lista):
-        c1, c2 = st.columns([0.8, 0.2])
+        c1, c2 = st.columns([0.85, 0.15])
         c1.write(f"✅ {voce}")
         if c2.button("❌", key=f"del_{i}"):
             st.session_state.lista.pop(i)
@@ -48,7 +56,6 @@ if st.session_state.lista:
 
     st.write("---")
 
-    # 7. Funzione PDF
     def crea_pdf(lista):
         pdf = FPDF()
         pdf.add_page()
@@ -62,8 +69,8 @@ if st.session_state.lista:
         return pdf.output(dest='S').encode('latin-1')
 
     pdf_data = crea_pdf(st.session_state.lista)
-    st.download_button(label="📥 Scarica PDF", data=pdf_data, file_name="lista.pdf", mime="application/pdf", use_container_width=True)
+    st.download_button(label="📥 Scarica Lista in PDF", data=pdf_data, file_name="lista_spesa.pdf", mime="application/pdf", use_container_width=True)
     
-    if st.button("🗑️ Svuota Tutto", use_container_width=True):
+    if st.button("🗑️ Svuota tutta la lista", use_container_width=True):
         st.session_state.lista = []
         st.rerun()
