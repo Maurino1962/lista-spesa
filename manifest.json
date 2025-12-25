@@ -1,0 +1,20 @@
+{
+  "name": "La Mia Spesa",
+  "short_name": "Spesa",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/Maurino1962/lista-spesa/main/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/Maurino1962/lista-spesa/main/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff"
+}
