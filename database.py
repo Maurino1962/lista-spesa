@@ -1,6 +1,5 @@
 def get_product_list():
     products = [
-        # --- PRIMA PARTE ---
         "ACCESSORI CUCINA: Carta Alluminio", "ACCESSORI CUCINA: Carta Forno", "ACCESSORI CUCINA: Sacchetti Freezer",
         "BEVANDE: Acqua Gassata", "BEVANDE: Acqua Naturale", "BEVANDE: Aranciata", "BEVANDE: Coca Cola",
         "BEVANDE ALCOLICHE: Brachetto", "BEVANDE ALCOLICHE: Grappa", "BEVANDE ALCOLICHE: Spumante Dolce", 
@@ -29,10 +28,7 @@ def get_product_list():
         "IMPASTI PRONTI: Pasta Filo", "IMPASTI PRONTI: Pasta Frolla Rettangolare", "IMPASTI PRONTI: Pasta Frolla Tonda", 
         "IMPASTI PRONTI: Pasta per Pizza", "IMPASTI PRONTI: Pasta Sfoglia Rettangolare", "IMPASTI PRONTI: Pasta Sfoglia Tonda",
         "KEFIR: Agrumi", "KEFIR: Fragola", "KEFIR: Tropicale",
-        "LIEVITI: Lievito di Birra", "LIEVITI: Lievito per Dolci", 
-        
-        # --- SECONDA PARTE ---
-        "LIEVITI: Lievito Secco",
+        "LIEVITI: Lievito di Birra", "LIEVITI: Lievito per Dolci", "LIEVITI: Lievito Secco",
         "MAIALE: Arrosto", "MAIALE: Braciole", "MAIALE: Costolette", "MAIALE: Macinato", "MAIALE: Pancetta", "MAIALE: Salsiccia", "MAIALE: Scaloppine",
         "MANZO: Arrosto", "MANZO: Fettine", "MANZO: Fiorentine", "MANZO: Macinato", "MANZO: Ossobuco", "MANZO: Per Brodo", "MANZO: Roast beef",
         "MARMELLATE: Albicocca", "MARMELLATE: Arancia", "MARMELLATE: Ciliegia", "MARMELLATE: Fragola", "MARMELLATE: Pesca",
@@ -57,4 +53,4 @@ def get_product_list():
         "YOGURT: Agrumi", "YOGURT: Ciliegia", "YOGURT: Fragola", "YOGURT: Frutti di Bosco", "YOGURT: Intero", "YOGURT: Magro",
         "ZUCCHERI: Zucchero di Canna", "ZUCCHERI: Zucchero Semolato", "ZUCCHERI: Zucchero Vanigliato"
     ]
-    return products
+    return sorted(products)
