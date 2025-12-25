@@ -2,33 +2,26 @@ import streamlit as st
 from database import get_product_list
 from fpdf import FPDF
 
-# 1. Configurazione per PC (usa il tuo logo attuale)
-st.set_page_config(
-    page_title="La Mia Spesa", 
-    page_icon="logo.png",
-    layout="centered"
-)
+# 1. Configurazione PC
+st.set_page_config(page_title="La Mia Spesa", page_icon="logo.png")
 
-# 2. Codice per il TELEFONO (usa il logo leggero)
+# 2. TRUCCO PER IL TELEFONO (Forza il caricamento della nuova icona)
 st.markdown("""
-    <head>
-        <link rel="manifest" href="https://raw.githubusercontent.com/Maurino1962/lista-spesa/main/manifest.json">
-        <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Maurino1962/lista-spesa/main/logo_mobile.png">
-        <link rel="icon" sizes="192x192" href="https://raw.githubusercontent.com/Maurino1962/lista-spesa/main/logo_mobile.png">
-    </head>
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Maurino1962/lista-spesa/main/mobile.png?v=2">
+    <link rel="icon" href="https://raw.githubusercontent.com/Maurino1962/lista-spesa/main/mobile.png?v=2">
 """, unsafe_allow_html=True)
 
-# 3. Visualizzazione Logo Centrale
+# 3. Logo Centrale
 try:
     col1, col2, col3 = st.columns([1, 1, 1])
     with col2:
         st.image("logo.png", width=150)
 except:
-    st.markdown("<h1 style='text-align: center;'>🛒</h1>", unsafe_allow_html=True)
+    st.title("🛒 Lista della Spesa")
 
 st.markdown("<h1 style='text-align: center;'>Lista della Spesa</h1>", unsafe_allow_html=True)
 
-# 4. Logica dell'app
+# 4. Logica App
 prodotti_db = get_product_list()
 if 'lista' not in st.session_state:
     st.session_state.lista = []
