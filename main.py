@@ -1,41 +1,50 @@
 import streamlit as st
 from database import get_product_list
 
+# 1. Configurazione dell'icona e del titolo (apparirà sul Desktop e sul telefono)
 st.set_page_config(page_title="La Mia Spesa", page_icon="🛒")
 
+# 2. Titolo principale dell'app
 st.title("🛒 Lista della Spesa")
 
-# Carichiamo i prodotti dal database.py
-if 'prodotti_totali' not in st.session_state:
-    st.session_state.prodotti_totali = get_product_list()
+# 3. Caricamento dei prodotti dal tuo database (suddivisi per categoria)
+prodotti_db = get_product_list()
 
-if 'lista_spesa' not in st.session_state:
-    st.session_state.lista_spesa = []
+# Inizializzazione della lista nella memoria del browser
+if 'lista' not in st.session_state:
+    st.session_state.lista = []
 
-# Interfaccia per aggiungere prodotti
-prodotto_scelto = st.selectbox("Cerca un prodotto da aggiungere:", [""] + st.session_state.prodotti_totali)
+# 4. Area di selezione del prodotto
+st.write("### Seleziona prodotti")
+prodotto_scelto = st.selectbox(
+    "Cerca un prodotto dalla tua lista Excel:", 
+    [""] + prodotti_db,
+    help="Inizia a scrivere il nome del prodotto o della categoria"
+)
 
-if st.button("Aggiungi alla lista") and prodotto_scelto != "":
-    if prodotto_scelto not in st.session_state.lista_spesa:
-        st.session_state.lista_spesa.append(prodotto_scelto)
-        st.success(f"{prodotto_scelto} aggiunto!")
-    else:
-        st.warning("Il prodotto è già in lista.")
+if st.button("Aggiungi alla lista"):
+    if prodotto_scelto and prodotto_scelto not in st.session_state.lista:
+        st.session_state.lista.append(prodotto_scelto)
+        st.rerun()
 
-st.divider()
+st.write("---")
 
-# Visualizzazione lista
+# 5. Visualizzazione della lista "Da comprare"
 st.subheader("Da comprare:")
-if not st.session_state.lista_spesa:
-    st.info("La lista è vuota.")
+
+if not st.session_state.lista:
+    st.info("La lista è vuota. Seleziona qualcosa sopra per iniziare!")
 else:
-    for i, voce in enumerate(st.session_state.lista_spesa):
-        col1, col2 = st.columns([0.8, 0.2])
-        col1.write(f"• {voce}")
+    # Mostra ogni prodotto con un tasto per eliminarlo
+    for i, voce in enumerate(st.session_state.lista):
+        col1, col2 = st.columns([0.85, 0.15])
+        col1.write(f"✅ {voce}")
         if col2.button("Elimina", key=f"del_{i}"):
-            st.session_state.lista_spesa.pop(i)
+            st.session_state.lista.pop(i)
             st.rerun()
 
-if st.button("Svuota tutta la lista"):
-    st.session_state.lista_spesa = []
-    st.rerun()
+    st.write("---")
+    # Tasto per ricominciare da capo
+    if st.button("🗑️ Svuota tutta la lista"):
+        st.session_state.lista = []
+        st.rerun()
